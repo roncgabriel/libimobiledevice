@@ -30,9 +30,10 @@ before_install:
 - if [ "$CROSS" = "yes" ]; then sudo apt-get install -y --force-yes gcc/trusty libssl1.0.0:$ARCH/trusty libssl-dev:$ARCH/trusty libc6:$ARCH/trusty libc6-dev:$ARCH/trusty libgcc1:$ARCH/trusty zlib1g-dev:$ARCH/trusty gcc-4.9-base:$ARCH/trusty linux-libc-dev:$ARCH/trusty; fi
 
 install:
-- pip install --user azure-cli
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; then pip2 install --user azure-cli; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install openssl; fi
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install --user azure-cli; fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./build/install-patchelf.sh; fi
 
 before_script:
