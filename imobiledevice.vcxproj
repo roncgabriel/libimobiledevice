@@ -181,6 +181,7 @@ copy "$(SolutionDir)packages\libusbmuxd.symbols.1.0.10.92\build\native\bin\$(Pla
     <ClInclude Include="include\libimobiledevice\libimobiledevice.h" />
     <ClInclude Include="include\libimobiledevice\lockdown.h" />
     <ClInclude Include="include\libimobiledevice\misagent.h" />
+    <ClInclude Include="include\libimobiledevice\mobileactivation.h" />
     <ClInclude Include="include\libimobiledevice\mobilebackup.h" />
     <ClInclude Include="include\libimobiledevice\mobilebackup2.h" />
     <ClInclude Include="include\libimobiledevice\mobilesync.h" />
@@ -237,6 +238,7 @@ copy "$(SolutionDir)packages\libusbmuxd.symbols.1.0.10.92\build\native\bin\$(Pla
     <ClCompile Include="src\installation_proxy.c" />
     <ClCompile Include="src\lockdown.c" />
     <ClCompile Include="src\misagent.c" />
+    <ClCompile Include="src\mobileactivation.c" />
     <ClCompile Include="src\mobilebackup.c" />
     <ClCompile Include="src\mobilebackup2.c" />
     <ClCompile Include="src\mobilesync.c" />
