@@ -24,7 +24,3 @@ on_success:
   - cmd: 7z a -tzip "libimobiledevice-1.2.1.%APPVEYOR_BUILD_NUMBER%-windows-x64.zip" .\x64\Release\*.exe .\x64\Release\*.dll
   - cmd: appveyor PushArtifact libimobiledevice-1.2.1.%APPVEYOR_BUILD_NUMBER%-windows-x86.zip
   - cmd: appveyor PushArtifact libimobiledevice-1.2.1.%APPVEYOR_BUILD_NUMBER%-windows-x64.zip
-
-nuget:
-  project_feed: true
-  account_feed: true
