@@ -40,6 +40,7 @@ char *dirname(char *path)
     }
     else {
         memcpy(buffer, path, len - 1);
+		buffer[len] = '\0';
     }
     return buffer;
 }
