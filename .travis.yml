@@ -1,5 +1,4 @@
 dist: trusty
-sudo: true
 
 matrix:
   include:
@@ -17,17 +16,18 @@ env:
   - CFLAGS=-fPIC
   - LIBIMOBILEDEVICE_VERSION_PREFIX=1.2.1
 
+addons:
+  apt:
+    packages:
+    - devscripts
+    - debhelper
+    - dh-autoreconf
+    - dput
+    - osc
+    - fakeroot
+
 before_install:
 - test -n $CC && unset CC
-- if [ "$CREATE_DEB" = "yes" ]; then sudo apt-get install -y devscripts debhelper dh-autoreconf dput osc; fi
-- if [ "$CROSS" = "yes" ]; then sudo apt-get install -y gcc-$TARGET binutils-$TARGET g++-$TARGET; fi
-- if [ "$CROSS" = "yes" ]; then sudo rm -rf /etc/apt/sources.list.d; fi
-- if [ "$CROSS" = "yes" ]; then sudo echo "deb [arch=amd64,i386] http://archive.ubuntu.com/ubuntu trusty main universe" | sudo tee /etc/apt/sources.list > /dev/null; fi
-- if [ "$CROSS" = "yes" ]; then sudo echo "deb [arch=$ARCH] http://ports.ubuntu.com/ trusty main universe" | sudo tee -a /etc/apt/sources.list > /dev/null; fi
-- if [ "$CROSS" = "yes" ]; then sudo dpkg --add-architecture $ARCH; fi
-- if [ "$CROSS" = "yes" ]; then sudo apt-get update -qq; fi
-- if [ "$CROSS" = "yes" ]; then sudo apt-get install -y --force-yes libssl1.0.0/trusty libssl-dev/trusty zlib1g-dev/trusty libc6/trusty libc6-dev/trusty libgcc1/trusty linux-libc-dev/trusty; fi
-- if [ "$CROSS" = "yes" ]; then sudo apt-get install -y --force-yes gcc/trusty libssl1.0.0:$ARCH/trusty libssl-dev:$ARCH/trusty libc6:$ARCH/trusty libc6-dev:$ARCH/trusty libgcc1:$ARCH/trusty zlib1g-dev:$ARCH/trusty gcc-4.9-base:$ARCH/trusty linux-libc-dev:$ARCH/trusty; fi
 
 install:
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pip2 install --user azure-cli; fi
@@ -70,15 +70,11 @@ after_success:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then az=$HOME/Library/Python/2.7/bin/az; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then az=$HOME/.local/bin/az; fi
 - $az storage blob upload -f libimobiledevice-$RID.tar.gz -c imobiledevice -n libimobiledevice-$RID-1.2.1-$TRAVIS_BUILD_NUMBER.tar.gz
+- if [[ "$CREATE_DEB" == "yes" ]]; then ./make-deb.sh bionic; fi
+- if [[ "$CREATE_DEB" == "yes" ]]; then ./make-deb.sh precise; fi
+- if [[ "$CREATE_DEB" == "yes" ]]; then ./make-deb.sh trusty; fi
 - if [[ "$CREATE_DEB" == "yes" ]]; then ./make-deb.sh xenial; fi
 - if [[ "$CREATE_DEB" == "yes" ]]; then ./make-rpm.sh; fi
 
 after_failure:
 - cat config.log
-
-deploy:
-  provider: releases
-  file: libimobiledevice-$RID.tar.gz
-  skip_cleanup: true
-  on:
-    tags: true
