@@ -34,6 +34,8 @@
 #include <errno.h>
 
 #ifdef WIN32
+// OpenSSL will include winsock2, but winsock2 must be included before windows.h. So do it now.
+#include <WinSock2.h>
 #include <windows.h>
 #endif
 
