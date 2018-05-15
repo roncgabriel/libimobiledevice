@@ -1,26 +1,20 @@
+environment:
+  VCPKG_ROOT: C:\tools\vcpkg-libimobiledevice
+
 before_build:
-  - nuget restore
+  - vcpkg version
+  - git clone -q --depth 1 -b ports/libimobiledevice https://github.com/libimobiledevice-win32/vcpkg %VCPKG_ROOT%
+  - cmd: "%VCPKG_ROOT%\\bootstrap-vcpkg.bat"
+  - cmd: "%VCPKG_ROOT%\\vcpkg version"
+  - cmd: "%VCPKG_ROOT%\\vcpkg integrate install"
+  - cmd: "%VCPKG_ROOT%\\vcpkg install libplist:x86-windows libusbmuxd:x86-windows zlib:x86-windows openssl:x86-windows dirent:x86-windows"
+  - cmd: "%VCPKG_ROOT%\\vcpkg install libplist:x64-windows libusbmuxd:x64-windows zlib:x64-windows openssl:x64-windows dirent:x64-windows"
+
   # Update version with build number
   - ps: (Get-Content Resource.rc -Raw) | Foreach-Object {$_ -replace "(?<version>\d[,|\.]\d[,|\.]\d[,|\.])\d", "`${version}$env:APPVEYOR_BUILD_NUMBER" } | Set-Content Resource.rc
-
-cache:
-  - packages -> **\packages.config      # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
 
 build_script:
   - msbuild libimobiledevice.sln /p:Configuration=Debug /p:Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /m
   - msbuild libimobiledevice.sln /p:Configuration=Release /p:Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /m
   - msbuild libimobiledevice.sln /p:Configuration=Debug /p:Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /m
   - msbuild libimobiledevice.sln /p:Configuration=Release /p:Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /m
-
-on_success:
-  - cmd: choco install wget
-  - cmd: wget http://coapp.org/files/CoApp.Tools.Powershell.msi
-  - cmd: start /wait msiexec /qb /i CoApp.Tools.Powershell.msi
-  - ps: .\CreateNuGetPackage.ps1 -Build $ENV:APPVEYOR_BUILD_NUMBER
-  - cmd: appveyor PushArtifact libimobiledevice.1.2.1.%APPVEYOR_BUILD_NUMBER%.nupkg
-  - cmd: appveyor PushArtifact libimobiledevice.symbols.1.2.1.%APPVEYOR_BUILD_NUMBER%.nupkg
-  - cmd: appveyor PushArtifact libimobiledevice.redist.1.2.1.%APPVEYOR_BUILD_NUMBER%.nupkg
-  - cmd: 7z a -tzip "libimobiledevice-1.2.1.%APPVEYOR_BUILD_NUMBER%-windows-x86.zip" .\Win32\Release\*.exe .\Win32\Release\*.dll
-  - cmd: 7z a -tzip "libimobiledevice-1.2.1.%APPVEYOR_BUILD_NUMBER%-windows-x64.zip" .\x64\Release\*.exe .\x64\Release\*.dll
-  - cmd: appveyor PushArtifact libimobiledevice-1.2.1.%APPVEYOR_BUILD_NUMBER%-windows-x86.zip
-  - cmd: appveyor PushArtifact libimobiledevice-1.2.1.%APPVEYOR_BUILD_NUMBER%-windows-x64.zip
