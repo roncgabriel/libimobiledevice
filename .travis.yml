@@ -33,6 +33,7 @@ install:
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pip2 install --user azure-cli; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew update; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install openssl; fi
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install --user requests urllib3 pyOpenSSL --force --upgrade; fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install --user azure-cli; fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./build/install-patchelf.sh; fi
 
@@ -69,7 +70,7 @@ after_success:
 - tar -zcvf libimobiledevice-$RID.tar.gz -C $HOME/out .
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then az=$HOME/Library/Python/2.7/bin/az; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then az=$HOME/.local/bin/az; fi
-- $az storage blob upload -f libimobiledevice-$RID.tar.gz -c imobiledevice -n libimobiledevice-$RID-1.2.1-$TRAVIS_BUILD_NUMBER.tar.gz
+- $az storage blob upload --file libimobiledevice-$RID.tar.gz --container-name imobiledevice --name libimobiledevice-$RID-1.2.1-$TRAVIS_BUILD_NUMBER.tar.gz
 - if [[ "$CREATE_DEB" == "yes" ]]; then ./make-deb.sh bionic; fi
 - if [[ "$CREATE_DEB" == "yes" ]]; then ./make-deb.sh precise; fi
 - if [[ "$CREATE_DEB" == "yes" ]]; then ./make-deb.sh trusty; fi
