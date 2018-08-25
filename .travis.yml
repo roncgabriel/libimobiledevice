@@ -1,4 +1,5 @@
 dist: trusty
+osx_image: xcode8.3
 
 matrix:
   include:
