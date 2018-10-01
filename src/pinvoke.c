@@ -20,6 +20,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "idevice.h"
 #include "libimobiledevice/pinvoke.h"
 
