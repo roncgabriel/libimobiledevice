@@ -66,6 +66,7 @@ after_success:
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then chmod +rw $HOME/out/lib/libssl.1.0.0.dylib; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then chmod +rw $HOME/out/lib/libcrypto.1.0.0.dylib; fi
 - cp $HOME/ext/bin/* $HOME/out/bin/
+- export INSTALLDIR=$HOME/out
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./build/run-patchelf.sh; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then ./build/patchdylib.sh; fi
 - tar -zcvf libimobiledevice-$RID.tar.gz -C $HOME/out .

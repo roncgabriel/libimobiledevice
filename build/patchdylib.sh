@@ -4,7 +4,7 @@
 # Redirect from libimobiledevice.6.dylib in the out folder to libimobiledevice.dylib
 # in the folder where the executable is located (this will be the setup in our target
 # environment)
-for f in $HOME/out/bin/*; do
+for f in $INSTALLDIR/bin/*; do
    chmod +w $f
 
    # Skip the first line of the otool output, this is just the header
@@ -20,8 +20,8 @@ for f in $HOME/out/bin/*; do
    otool -L $f
 done
 
-libcrypto=`otool -L $HOME/out/lib/libssl.1.0.0.dylib | tail -n +2 | grep "libcrypto" | awk -F' ' '{ print $1 }'`
+libcrypto=`otool -L $INSTALLDIR/lib/libssl.1.0.0.dylib | tail -n +2 | grep "libcrypto" | awk -F' ' '{ print $1 }'`
 install_name_tool -change $libcrypto @loader_path/libcrypto.1.0.0.dylib $HOME/out/lib/libssl.1.0.0.dylib
 
-install_name_tool -change /usr/local/opt/openssl/lib/libssl.1.0.0.dylib @loader_path/libssl.1.0.0.dylib $HOME/out/lib/libimobiledevice.6.dylib
-install_name_tool -change /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib @loader_path/libcrypto.1.0.0.dylib $HOME/out/lib/libimobiledevice.6.dylib
+install_name_tool -change /usr/local/opt/openssl/lib/libssl.1.0.0.dylib @loader_path/libssl.1.0.0.dylib $INSTALLDIR/lib/libimobiledevice.6.dylib
+install_name_tool -change /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib @loader_path/libcrypto.1.0.0.dylib $INSTALLDIR/lib/libimobiledevice.6.dylib
