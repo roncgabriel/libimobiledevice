@@ -47,8 +47,8 @@ jobs:
   - script: |
       mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\bin\
       mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\licenses\
-      copy %BUILD_ARCH%\Release\imobiledevice.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\bin\
-      copy %BUILD_ARCH%\Release\*.exe %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\bin\
+      copy %PLATFORM%\Release\imobiledevice.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\bin\
+      copy %PLATFORM%\Release\*.exe %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\bin\
       copy vcpkg\installed\%BUILD_ARCH%-windows\bin\*.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\bin\
       copy vcpkg\installed\%BUILD_ARCH%-windows\share\getopt-win32\copyright %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\licenses\getopt.copyright
       copy vcpkg\installed\%BUILD_ARCH%-windows\share\openssl-windows\copyright %BUILD_ARTIFACTSTAGINGDIRECTORY%\libimobiledevice\%RID%\licenses\openssl.copyright
