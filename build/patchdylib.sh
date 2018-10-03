@@ -4,8 +4,8 @@
 # Redirect from libimobiledevice.6.dylib in the out folder to libimobiledevice.dylib
 # in the folder where the executable is located (this will be the setup in our target
 # environment)
-for f in $INSTALLDIR/bin/*; do
-   for l in libplist libusbmuxd libimobiledevice do
+for f in $INSTALLDIR/bin/* $INSTALLDIR/lib/*.dylib; do
+   for l in libplist libusbmuxd libimobiledevice; do
      chmod +w $f
 
      # Skip the first line of the otool output, this is just the header
