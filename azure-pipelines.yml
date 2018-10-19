@@ -1,7 +1,7 @@
 variables:
-  libplistBuild: 209
+  libplistBuild: 281
   libplistPipeline: 2
-  libusbmuxdBuild: 230
+  libusbmuxdBuild: 283
   libusbmuxdPipeline: 3
 jobs:
 - job: windows
@@ -131,6 +131,10 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
+  - script: |
+      lsb_release -a
+      sudo apt-get remove -y libssl1.1 ant
+    displayName: Check Ubuntu version, remove non-standard libssl1.1
   - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'specific'
