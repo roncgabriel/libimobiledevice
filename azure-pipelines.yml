@@ -27,7 +27,8 @@ jobs:
       vcpkg\vcpkg version
       vcpkg\vcpkg integrate install
       set VCPKG_BUILD_TYPE=release
-      vcpkg\vcpkg install libplist:%BUILD_ARCH%-windows libusbmuxd:%BUILD_ARCH%-windows zlib:%BUILD_ARCH%-windows openssl:%BUILD_ARCH%-windows dirent:%BUILD_ARCH%-windows getopt:%BUILD_ARCH%-windows --head
+      vcpkg\vcpkg install zlib:%BUILD_ARCH%-windows openssl:%BUILD_ARCH%-windows dirent:%BUILD_ARCH%-windows getopt:%BUILD_ARCH%-windows
+      vcpkg\vcpkg install libplist:%BUILD_ARCH%-windows libusbmuxd:%BUILD_ARCH%-windows --head
     displayName: Install native dependencies
   - powershell: |
       (Get-Content Resource.rc -Raw) | Foreach-Object {$_ -replace "(?<version>\d[,|\.]\d[,|\.]\d[,|\.])\d", "`${version}$env:BUILD_BUILDID" } | Set-Content Resource.rc
