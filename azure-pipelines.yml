@@ -106,6 +106,9 @@ jobs:
       pkg-config --variable=prefix libplist
       pkg-config --variable=prefix libusbmuxd
 
+      pkg-config --define-prefix --variable=prefix libplist
+      pkg-config --define-prefix --variable=prefix libusbmuxd
+
       ./autogen.sh --prefix=$BUILD_ARTIFACTSTAGINGDIRECTORY/libimobiledevice/$RID --host=$TARGET --without-cython --enable-static=no --enable-shared=yes --enable-openssl
       make
     displayName: Build
