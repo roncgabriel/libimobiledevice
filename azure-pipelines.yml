@@ -103,6 +103,9 @@ jobs:
       export PKG_CONFIG_PATH="$SYSTEM_ARTIFACTSDIRECTORY/libusbmuxd/$RID/lib/pkgconfig:$PKG_CONFIG_PATH"
       export PKG_CONFIG_PATH="$(brew --prefix)/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH"
 
+      pkg-config --variable=prefix libplist
+      pkg-config --variable=prefix libusbmuxd
+
       ./autogen.sh --prefix=$BUILD_ARTIFACTSTAGINGDIRECTORY/libimobiledevice/$RID --host=$TARGET --without-cython --enable-static=no --enable-shared=yes --enable-openssl
       make
     displayName: Build
@@ -167,6 +170,7 @@ jobs:
   - script: |
       export PKG_CONFIG_PATH="$SYSTEM_ARTIFACTSDIRECTORY/libplist/$RID/lib/pkgconfig:$PKG_CONFIG_PATH"
       export PKG_CONFIG_PATH="$SYSTEM_ARTIFACTSDIRECTORY/libusbmuxd/$RID/lib/pkgconfig:$PKG_CONFIG_PATH"
+
       ./autogen.sh --prefix=$BUILD_ARTIFACTSTAGINGDIRECTORY/libimobiledevice/$RID --host=$TARGET --without-cython --enable-static=no --enable-shared=yes --enable-openssl
       make
     displayName: Build
