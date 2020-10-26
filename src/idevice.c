@@ -1139,7 +1139,7 @@ LIBIMOBILEDEVICE_API idevice_error_t idevice_connection_disable_bypass_ssl(idevi
 
 LIBIMOBILEDEVICE_API idevice_error_t idevice_set_socket_type(enum idevice_socket_type value)
 {
-	if (usbmuxd_set_socket_type((enum usbmuxd_socket_type)value) != 0) {
+	if (usbmuxd_set_socket_type((enum usbmuxd_socket_type*)value) != 0) {
 		return IDEVICE_E_UNKNOWN_ERROR;
 	}
 
